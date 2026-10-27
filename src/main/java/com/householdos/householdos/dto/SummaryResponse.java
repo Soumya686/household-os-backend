@@ -1,6 +1,6 @@
 package com.householdos.householdos.dto;
 
-public record MaintenanceSummaryResponse(
+public record SummaryResponse(
 
     long total,
     long pending,

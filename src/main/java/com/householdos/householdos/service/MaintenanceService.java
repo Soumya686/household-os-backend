@@ -1,12 +1,12 @@
 package com.householdos.householdos.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.householdos.householdos.dto.CreateMaintenanceRequest;
-import com.householdos.householdos.dto.MaintenanceSummaryResponse;
+import com.householdos.householdos.dto.SummaryResponse;
 import com.householdos.householdos.entity.Maintenance;
 import com.householdos.householdos.enums.MaintenanceStatus;
 import com.householdos.householdos.exception.MaintenanceNotFoundException;
 import com.householdos.householdos.repository.MaintenanceRepository;
+import com.householdos.householdos.util.SummeryResponseMapping;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,6 +22,8 @@ public class MaintenanceService {
 
 
     private final MaintenanceRepository maintenanceRepository;
+
+    private SummeryResponseMapping SummeryResponse;
 
     public MaintenanceService(MaintenanceRepository maintenanceRepository) {
         this.maintenanceRepository = maintenanceRepository;
@@ -81,24 +81,22 @@ public class MaintenanceService {
         return maintenanceRepository.save(maintenance);
     }
 
-    public   MaintenanceSummaryResponse getMaintenanceSummary()
+    public SummaryResponse getMaintenanceSummary()
     {
         Object[] result = maintenanceRepository.findMaintenanceSummary(
                 MaintenanceStatus.PENDING,
                 MaintenanceStatus.COMPLETED
         );
-        System.out.println("Result is "+result);
-        System.out.println(Arrays.deepToString(result));
-        System.out.println(result[0].getClass().getName());
+        return SummeryResponse.setSummeryfromResult(result);
 
-        Object[] row = (Object[]) result[0];
+        /*Object[] row = (Object[]) result[0];
 
         return new MaintenanceSummaryResponse(
                 ((Number) row[0]).longValue(),
                 ((Number) row[1]).longValue(),
                 ((Number) row[2]).longValue(),
                 ((Number) row[3]).longValue()
-        );
+        );*/
 
 
     }

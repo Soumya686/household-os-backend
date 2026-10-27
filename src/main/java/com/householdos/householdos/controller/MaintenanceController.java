@@ -1,7 +1,7 @@
 package com.householdos.householdos.controller;
 
 import com.householdos.householdos.dto.CreateMaintenanceRequest;
-import com.householdos.householdos.dto.MaintenanceSummaryResponse;
+import com.householdos.householdos.dto.SummaryResponse;
 import com.householdos.householdos.entity.Maintenance;
 import com.householdos.householdos.service.MaintenanceService;
 import jakarta.validation.Valid;
@@ -73,9 +73,9 @@ public class MaintenanceController {
     }
 
     @GetMapping("/summary")
-    public  MaintenanceSummaryResponse MaintenanceSummery()
-    {
-       return maintenanceService.getMaintenanceSummary();
+    public SummaryResponse MaintenanceSummery() {
+
+        return maintenanceService.getMaintenanceSummary();
     }
 
 }
