@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bill-occurrences")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BillOccurrenceController {
 
     private final BillOccurrenceService billOccurrenceService;

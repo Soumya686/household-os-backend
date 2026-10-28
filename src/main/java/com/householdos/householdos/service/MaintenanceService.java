@@ -87,16 +87,14 @@ public class MaintenanceService {
                 MaintenanceStatus.PENDING,
                 MaintenanceStatus.COMPLETED
         );
-        return SummeryResponse.setSummeryfromResult(result);
+        Object[] row = (Object[]) result[0];
 
-        /*Object[] row = (Object[]) result[0];
-
-        return new MaintenanceSummaryResponse(
+        return new SummaryResponse(
                 ((Number) row[0]).longValue(),
                 ((Number) row[1]).longValue(),
                 ((Number) row[2]).longValue(),
                 ((Number) row[3]).longValue()
-        );*/
+        );
 
 
     }
