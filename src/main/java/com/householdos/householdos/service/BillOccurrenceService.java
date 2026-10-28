@@ -2,6 +2,7 @@ package com.householdos.householdos.service;
 
 import com.householdos.householdos.dto.BillSummaryResponse;
 import com.householdos.householdos.dto.CreateBillOccurrenceRequest;
+import com.householdos.householdos.dto.UpdateBillOccurrenceRequest;
 import com.householdos.householdos.dto.SummaryResponse;
 import com.householdos.householdos.entity.Bill;
 import com.householdos.householdos.entity.BillOccurrence;
@@ -13,6 +14,8 @@ import com.householdos.householdos.util.SummeryResponseMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 
@@ -38,7 +41,11 @@ public class BillOccurrenceService {
 
         BillOccurrence billOccurrence = new BillOccurrence();
         Bill bill = billRepository.findById(request.getBillId()).orElseThrow(() -> new BillNotFoundException(request.getBillId()));
-        billOccurrence.setAmount(request.getAmount());
+        var amount = request.getAmount() != null ? request.getAmount() : bill.getDefaultAmount();
+        if (amount == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount is required when the bill has no default amount");
+        }
+        billOccurrence.setAmount(amount);
         billOccurrence.setDueDate(request.getDueDate());
         billOccurrence.setStatus(BillStatus.PENDING);
         billOccurrence.setBill(bill);
@@ -54,6 +61,14 @@ public class BillOccurrenceService {
             billOccurrence.setPaidDate(LocalDate.now());
         }
         return billOccurrenceRepository.save(billOccurrence);
+    }
+
+    public BillOccurrence editBillOccurrence(Long billOccId, UpdateBillOccurrenceRequest request) {
+        BillOccurrence occurrence = billOccurrenceRepository.findById(billOccId)
+                .orElseThrow(() -> new BillNotFoundException(billOccId));
+        occurrence.setAmount(request.getAmount());
+        occurrence.setDueDate(request.getDueDate());
+        return billOccurrenceRepository.save(occurrence);
     }
 
     public BillSummaryResponse getBillOccSummary() {

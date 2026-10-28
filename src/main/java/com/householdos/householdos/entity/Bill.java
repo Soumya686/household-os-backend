@@ -1,6 +1,8 @@
 package com.householdos.householdos.entity;
 
 import com.householdos.householdos.enums.BillFrequency;
+import com.householdos.householdos.enums.BillType;
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,7 +17,12 @@ public class Bill {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    private BillType type;
+
+    @Enumerated(EnumType.STRING)
     private BillFrequency frequency;
+
+    private BigDecimal defaultAmount;
 
     private boolean active= true;
 
@@ -30,6 +37,14 @@ public class Bill {
     public void setName(String name) {
         this.name = name;
     }
+
+    public BillType getType() { return type; }
+
+    public void setType(BillType type) { this.type = type; }
+
+    public BigDecimal getDefaultAmount() { return defaultAmount; }
+
+    public void setDefaultAmount(BigDecimal defaultAmount) { this.defaultAmount = defaultAmount; }
 
     public BillFrequency getFrequency() {
         return frequency;

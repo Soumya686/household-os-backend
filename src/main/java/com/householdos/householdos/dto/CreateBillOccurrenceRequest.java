@@ -11,7 +11,6 @@ public class CreateBillOccurrenceRequest {
     @NotNull
     private Long billId;
 
-    @NotNull
     @DecimalMin(value = "0.00", inclusive = false)
     private BigDecimal amount;
 

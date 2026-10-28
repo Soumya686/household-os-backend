@@ -2,9 +2,9 @@ package com.householdos.householdos.controller;
 
 import com.householdos.householdos.dto.BillSummaryResponse;
 import com.householdos.householdos.dto.CreateBillOccurrenceRequest;
+import com.householdos.householdos.dto.UpdateBillOccurrenceRequest;
 import com.householdos.householdos.dto.SummaryResponse;
 import com.householdos.householdos.entity.BillOccurrence;
-import com.householdos.householdos.entity.Maintenance;
 import com.householdos.householdos.service.BillOccurrenceService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -36,6 +36,11 @@ public class BillOccurrenceController {
     public BillOccurrence createBillOccurence(@Valid @RequestBody CreateBillOccurrenceRequest request)
     {
         return billOccurrenceService.createBillOccurrence(request);
+    }
+
+    @PutMapping("/{billOccId}")
+    public BillOccurrence editBillOccurrence(@PathVariable Long billOccId, @Valid @RequestBody UpdateBillOccurrenceRequest request) {
+        return billOccurrenceService.editBillOccurrence(billOccId, request);
     }
 
     @PutMapping("/{billOccId}/pay")
